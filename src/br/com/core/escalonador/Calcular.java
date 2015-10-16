@@ -11,21 +11,13 @@ public class Calcular {
 	double tempoTotal = 0;
 	double[][] mD;
 	double[][] mFIFO;
-	double[][] mSJF;
 	double[][] mPrioridade;
-	double[][] mRR;
 	static double[] tEspPrio;
 	static double[] tTurPrio;
 	static double[] tEspFIFO;
 	static double[] tTurFIFO;
-	static double[] tEspSJF;
-	static double[] tTurSJF;
-	static double[] tEspRR;
-	static double[] tTurRR;
 	double tmeFIFO = 0;
-	double tmeSJF = 0;
 	double tmePrio = 0;
-	double tmeRR = 0;
 	int linhas;
 
 	public Calcular() {
@@ -46,38 +38,22 @@ public class Calcular {
 
 		mFIFO = new double[linhas][3];
 		mD = new double[linhas][3];
-		mSJF = new double[linhas][3];
 		mPrioridade = new double[linhas][3];
-		mRR = new double[linhas][3];
 
 		while (i < linhas) {
 			mD[i][0] = Double.parseDouble((String) Principal.table.getValueAt(i, 1));
 			mFIFO[i][0] = Double.parseDouble((String) Principal.table.getValueAt(i,
 					1));
-			mSJF[i][0] = Double.parseDouble((String) Principal.table
-					.getValueAt(i, 1));
-			mPrioridade[i][0] = Double.parseDouble((String) Principal.table
-					.getValueAt(i, 1));
-			mRR[i][0] = Double
-					.parseDouble((String) Principal.table.getValueAt(i, 1));
 			mD[i][1] = Double.parseDouble((String) Principal.table.getValueAt(i, 2));
 			mFIFO[i][1] = Double.parseDouble((String) Principal.table.getValueAt(i,
 					2));
-			mSJF[i][1] = Double.parseDouble((String) Principal.table
-					.getValueAt(i, 2));
 			mPrioridade[i][1] = Double.parseDouble((String) Principal.table
 					.getValueAt(i, 2));
-			mRR[i][1] = Double
-					.parseDouble((String) Principal.table.getValueAt(i, 2));
 			mD[i][2] = Double.parseDouble((String) Principal.table.getValueAt(i, 3));
 			mFIFO[i][2] = Double.parseDouble((String) Principal.table.getValueAt(i,
 					3));
-			mSJF[i][2] = Double.parseDouble((String) Principal.table
-					.getValueAt(i, 3));
 			mPrioridade[i][2] = Double.parseDouble((String) Principal.table
 					.getValueAt(i, 3));
-			mRR[i][2] = Double
-					.parseDouble((String) Principal.table.getValueAt(i, 3));
 			i++;
 		}
 		quantum = Principal.quantum;
@@ -119,47 +95,6 @@ public class Calcular {
 			}
 		}
 
-	}
-
-	public void getSJF() {
-		int i = 0;
-		int pmt = 0;
-		int contSJF = 0;
-		int[] escSJF = new int[(int) tempoTotal];
-		while (contSJF < tempoTotal) {
-			int minTime = 9999;
-			for (i = 0; i < linhas; i++) {
-				if (mSJF[i][1] < minTime && mSJF[i][1] > 0
-						&& mSJF[i][0] <= contSJF) {
-					minTime = (int) mSJF[i][1];
-					pmt = i;
-				}
-			}
-			mSJF[pmt][1] = mSJF[pmt][1] - 1;
-			escSJF[contSJF] = pmt;
-			contSJF++;
-		}
-
-		contSJF = 0;
-		i = 0;
-		tEspSJF = new double[(int) linhas];
-		tTurSJF = new double[(int) linhas];
-		int contProcesso = 0;
-
-		while (contProcesso < linhas) {
-			if (escSJF[i] == contProcesso) {
-				tEspSJF[contProcesso] = i - mD[contProcesso][0];
-				tTurSJF[contProcesso] = tEspSJF[contProcesso]
-						+ mD[contProcesso][1];
-				contProcesso++;
-			}
-			
-			if (i + 1 >= tempoTotal) {
-				i = 0;
-			} else {
-				i++;
-			}
-		}
 	}
 
 	public void getPrioridade() {
@@ -206,76 +141,18 @@ public class Calcular {
 
 	}
 
-	public void getRR() {
-		int i = 0;
-		int cQ = 1;
-		int contRR = 0;
-		int[] escRR = new int[(int) tempoTotal];
-		while (contRR < tempoTotal) {
-			if (mRR[i][1] > 0 && mRR[i][0] <= contRR) {
-				mRR[i][1] = mRR[i][1] - 1;
-				escRR[contRR] = i;
-				contRR++;
-				cQ++;
-			} else {
-				cQ = 1;
-				if (i + 1 > linhas) {
-					i = 0;
-				} else {
-					i++;
-				}
-			}
-			if (cQ > quantum) {
-				cQ = 1;
-				if (i + 1 > linhas) {
-					i = 0;
-				} else {
-					i++;
-				}
-			}
-			if (i + 1 > linhas) {
-				i = 0;
-			}
-
-		}
-
-		contRR = 0;
-		i = 0;
-		tEspRR = new double[(int) linhas];
-		tTurRR = new double[(int) linhas];
-		int contProcesso = 0;
-		while (contProcesso < linhas) {
-			if (escRR[i] == contProcesso) {
-				tEspRR[contProcesso] = i - mD[contProcesso][0];
-				tTurRR[contProcesso] = tEspRR[contProcesso]
-						+ mD[contProcesso][1];
-				contProcesso++;
-			}
-			if (i + 1 >= tempoTotal) {
-				i = 0;
-			} else {
-				i++;
-			}
-		}
-
-	}
-
 	public int getMelhor() {
+		
 		int c = 0;
-		if (tmeFIFO < tmeSJF && tmeFIFO < tmePrio && tmeFIFO < tmeRR) {
+		if (tmeFIFO < tmePrio) {
 			c = 1;
 		}
-		if (tmeSJF < tmeFIFO && tmeSJF < tmePrio && tmeSJF < tmeRR) {
+		
+		if (tmePrio < tmeFIFO) {
 			c = 2;
 		}
-		if (tmePrio < tmeFIFO && tmePrio < tmeSJF && tmePrio < tmeRR) {
-			c = 3;
-		}
-		if (tmeRR < tmeFIFO && tmeRR < tmeSJF && tmeRR < tmePrio) {
-			c = 4;
-		}
+		
 		return c;
-
 	}
 
 	public double getEsperaFIFO() {
@@ -286,14 +163,6 @@ public class Calcular {
 		return tmeFIFO / linhas;
 	}
 
-	public double getEsperaSJF() {
-
-		for (int i = 0; i < tEspSJF.length; i++) {
-			tmeSJF = tEspSJF[i] + tmeSJF;
-		}
-		return tmeSJF / linhas;
-	}
-
 	public double getEsperaPrioridade() {
 
 		for (int i = 0; i < tEspPrio.length; i++) {
@@ -302,27 +171,11 @@ public class Calcular {
 		return tmePrio / linhas;
 	}
 
-	public double getEsperaRR() {
-		for (int i = 0; i < tEspRR.length; i++) {
-			tmeRR = tEspRR[i] + tmeRR;
-		}
-		return tmeRR / linhas;
-	}
-
 	public double getTurnaroundFIFO() {
 		return (tmeFIFO + tempoTotal) / linhas;
-	}
-
-	public double getTurnaroundSJF() {
-		return (tmeSJF + tempoTotal) / linhas;
 	}
 
 	public double getTurnaroundPrioridade() {
 		return (tmePrio + tempoTotal) / linhas;
 	}
-
-	public double getTurnaroundRR() {
-		return (tmeRR + tempoTotal) / linhas;
-	}
-
 }

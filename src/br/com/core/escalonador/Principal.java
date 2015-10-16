@@ -105,7 +105,6 @@ public class Principal {
 		});
 
 		itemSobre.addActionListener(new ActionListener() {
-
 			@SuppressWarnings("unused")
 			public void actionPerformed(ActionEvent e) {
 				JOptionPane.showMessageDialog(null, sobre, null, JOptionPane.PLAIN_MESSAGE);

@@ -14,11 +14,13 @@ public class Resultado {
     public Resultado() {  
     	
         calc = new Calcular();  
+        
         jResultado = new JFrame();  
         jResultado.setLayout(null);  
         jResultado.setTitle("Resultado");  
         jResultado.setSize(500, 750);  
         jResultado.setLocationRelativeTo(null);  
+        
         calc.getFIFO();  
         calc.getPrioridade();  
 
