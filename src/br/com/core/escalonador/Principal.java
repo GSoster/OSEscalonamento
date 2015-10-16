@@ -1,11 +1,11 @@
 package br.com.core.escalonador;
 
-import java.awt.Font;
+//import java.awt.Font; n utilizado
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
-import javax.swing.JLabel;
+//import javax.swing.JLabel; n utilizado
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -13,7 +13,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
+//import javax.swing.JTextField; n utilizado
 import javax.swing.table.DefaultTableModel;
 
 public class Principal {
@@ -21,13 +21,14 @@ public class Principal {
 	protected static int quantum = 1; 
 	protected static JFrame janelaPrinc; 
 	protected static JTable table; 
-	protected static int p = 0; 
+	protected static int p = 0; //numero de processos
 	protected static int openJa = 0;
 	private static JMenu menuPrincipal;
 	private static JMenuBar barraMenu;
 	private static JMenuItem itemAdicionar, itemRemover, itemCalcular, itemSobre;
-	private String alerta = "Você deve inserir pelo menos 1 processo e/ou o quantum não pode ser vazio!";
-	private String sobre = "                                                                  ======= Escalonamento de Processos =======\n Prof. Marcela Santos\n Alunos: Antonio, Sandro, Guilherme, Maicon\n\nFonte original obtido em: JavaFree.org\nDisponível em: <http://javafree.uol.com.br/topic-886249-Exemplo-de-Simulador-de-escalonamento-de-processos-de-SO.html>\nAcesso em 16 de outubro de 2015.";
+	//tornar Final ambas referencias abaixo
+	private String alerta = "VocÃª deve inserir pelo menos 1 processo e/ou o quantum nÃ£o pode ser vazio!";
+	private String sobre = "                                                                  ======= Escalonamento de Processos =======\n Prof. Marcela Santos\n Alunos: Antonio, Sandro, Guilherme, Maicon\n\nFonte original obtido em: JavaFree.org\nDisponÃ­vel em: <http://javafree.uol.com.br/topic-886249-Exemplo-de-Simulador-de-escalonamento-de-processos-de-SO.html>\nAcesso em 16 de outubro de 2015.";
 
 	private static DefaultTableModel model; 
 //	private static JTextField tquantum; 
@@ -36,7 +37,7 @@ public class Principal {
 
 		janelaPrinc = new JFrame();
 		janelaPrinc.setLayout(null);
-		janelaPrinc.setTitle("Simulação de escalonador de processos");
+		janelaPrinc.setTitle("SimulaÃ§Ã£o de escalonador de processos");
 		janelaPrinc.setSize(800, 600);
 		inicializarMenu();
 		configuraMenu();
@@ -59,7 +60,7 @@ public class Principal {
 
 		model.addColumn("Processo");
 		model.addColumn("Tempo de Chegada");
-		model.addColumn("Tempo de Execução");
+		model.addColumn("Tempo de ExecuÃ§Ã£o");
 		model.addColumn("Prioridade");
 
 		table = new JTable(model);
@@ -85,7 +86,7 @@ public class Principal {
 			public void actionPerformed(ActionEvent e) {
 				int colunas = table.getSelectedColumn();
 				int linhas = table.getSelectedRow();
-				if (linhas == -1 || colunas == -1) {
+				if (linhas == -1 || colunas == -1) {// alterar para: (linhas != -1 || colunas != -1) ? aÃ§Ã£o (model....);
 				} else {
 					model.removeRow(linhas);
 					p--;
@@ -99,7 +100,7 @@ public class Principal {
 //				if (tquantum != null && !tquantum.getText().trim().isEmpty() && model.getRowCount() > 0) {
 				if (model.getRowCount() > 0) {
 //					quantum = Integer.parseInt(tquantum.getText());
-					Resultado res = new Resultado();
+					Resultado res = new Resultado();//lembrar de alterar o construtor de Calcular.
 				} else {
 					JOptionPane.showMessageDialog(null, alerta, null, JOptionPane.WARNING_MESSAGE);
 				}
