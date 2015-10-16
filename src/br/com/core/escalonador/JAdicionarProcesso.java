@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import javax.swing.*; 
 
 public class JAdicionarProcesso {
+	
 	static JFrame jAdicionar;  
     static Object[] nl;  
     JTextField tprocesso;  
@@ -84,10 +85,5 @@ public class JAdicionarProcesso {
 
         jAdicionar.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);  
         jAdicionar.setVisible(true);  
-    }  
-  
-    @SuppressWarnings("unused")
-	public static void main(String args[]) {  
-        JAdicionarProcesso ja = new JAdicionarProcesso();  
     }  
 }

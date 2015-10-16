@@ -26,8 +26,9 @@ public class Principal {
 	private static JMenu menuPrincipal;
 	private static JMenuBar barraMenu;
 	private static JMenuItem itemAdicionar, itemRemover, itemCalcular, itemSobre;
-	private String alerta = "Você deve inserir pelo menos 1 processo e qual o quantum!";
-	private String sobre = "======= Trabalho de Sistemas Operacionais =======\n Prof. Marcela Santos\n Equipe: Antonio, Sandro, Guilherme, Maicon";
+	private String alerta = "Você deve inserir pelo menos 1 processo e/ou o quantum não pode ser vazio!";
+	private String sobre = "                                                                  ======= Escalonamento de Processos =======\n Prof. Marcela Santos\n Alunos: Antonio, Sandro, Guilherme, Maicon\n\nFonte original obtido em: JavaFree.org\nDisponível em: <http://javafree.uol.com.br/topic-886249-Exemplo-de-Simulador-de-escalonamento-de-processos-de-SO.html>\nAcesso em 16 de outubro de 2015.";
+
 	private static DefaultTableModel model; 
 	private static JTextField tquantum; 
 
@@ -95,7 +96,7 @@ public class Principal {
 		itemCalcular.addActionListener(new ActionListener() {
 			@SuppressWarnings("unused")
 			public void actionPerformed(ActionEvent e) {
-				if (tquantum != null && model.getRowCount() > 0) {
+				if (tquantum != null && !tquantum.getText().trim().isEmpty() && model.getRowCount() > 0) {
 					quantum = Integer.parseInt(tquantum.getText());
 					Resultado res = new Resultado();
 				} else {
@@ -107,7 +108,7 @@ public class Principal {
 		itemSobre.addActionListener(new ActionListener() {
 			@SuppressWarnings("unused")
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, sobre, null, JOptionPane.PLAIN_MESSAGE);
+				JOptionPane.showMessageDialog(null, sobre, null, JOptionPane.INFORMATION_MESSAGE);
 			}
 		});
 	}
