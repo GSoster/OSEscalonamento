@@ -18,7 +18,7 @@ import javax.swing.table.DefaultTableModel;
 
 public class Principal {
 
-	protected static int quantum; 
+	protected static int quantum = 1; 
 	protected static JFrame janelaPrinc; 
 	protected static JTable table; 
 	protected static int p = 0; 
@@ -30,7 +30,7 @@ public class Principal {
 	private String sobre = "                                                                  ======= Escalonamento de Processos =======\n Prof. Marcela Santos\n Alunos: Antonio, Sandro, Guilherme, Maicon\n\nFonte original obtido em: JavaFree.org\nDisponível em: <http://javafree.uol.com.br/topic-886249-Exemplo-de-Simulador-de-escalonamento-de-processos-de-SO.html>\nAcesso em 16 de outubro de 2015.";
 
 	private static DefaultTableModel model; 
-	private static JTextField tquantum; 
+//	private static JTextField tquantum; 
 
 	public Principal() {
 
@@ -66,7 +66,7 @@ public class Principal {
 
 		JScrollPane scrollTable = new JScrollPane(table);
 		scrollTable.setHorizontalScrollBar(new JScrollBar(0));
-		scrollTable.setBounds(50, 50, 700, 450);
+		scrollTable.setBounds(50, 20, 700, 500);
 		janelaPrinc.add(scrollTable);
 	}
 
@@ -96,8 +96,9 @@ public class Principal {
 		itemCalcular.addActionListener(new ActionListener() {
 			@SuppressWarnings("unused")
 			public void actionPerformed(ActionEvent e) {
-				if (tquantum != null && !tquantum.getText().trim().isEmpty() && model.getRowCount() > 0) {
-					quantum = Integer.parseInt(tquantum.getText());
+//				if (tquantum != null && !tquantum.getText().trim().isEmpty() && model.getRowCount() > 0) {
+				if (model.getRowCount() > 0) {
+//					quantum = Integer.parseInt(tquantum.getText());
 					Resultado res = new Resultado();
 				} else {
 					JOptionPane.showMessageDialog(null, alerta, null, JOptionPane.WARNING_MESSAGE);
@@ -125,13 +126,13 @@ public class Principal {
 		itemCalcular = new JMenuItem("Calcular");
 		itemRemover = new JMenuItem("Remover Processo");
 		itemSobre = new JMenuItem("Sobre");
-		JLabel lquantum = new JLabel("Quantum:");
-		lquantum.setFont(new Font(Font.DIALOG, Font.BOLD, 15));
-		tquantum = new JTextField();
-		lquantum.setBounds(50, 0, 80, 50);
-		tquantum.setBounds(125, 15, 60, 20);
-		janelaPrinc.add(lquantum);
-		janelaPrinc.add(tquantum);
+//		JLabel lquantum = new JLabel("Quantum:");
+//		lquantum.setFont(new Font(Font.DIALOG, Font.BOLD, 15));
+//		tquantum = new JTextField();
+//		lquantum.setBounds(50, 0, 80, 50);
+//		tquantum.setBounds(125, 15, 60, 20);
+//		janelaPrinc.add(lquantum);
+//		janelaPrinc.add(tquantum);
 	}
 
 	private void adicionarMenu() {
