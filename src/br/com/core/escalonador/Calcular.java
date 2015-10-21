@@ -140,6 +140,22 @@ public class Calcular {
 		}
 
 	}
+	
+	/**
+	 * calculo e o seguinte: soma do tempo de todos os processo
+	 * menos o tempo de chegada, divido pelo numero total de processos.
+	 * @return
+	 */
+	private int gerarMediaEsperaProcessos(){
+		int tempoTotal = 0;
+		int tempoChegada = 0;
+		for(Processo p : Principal.listaProcessos){
+			tempoTotal += p.getTempoExecucao();
+			tempoChegada += p.getTempoChegada();
+		}
+		return (tempoTotal - tempoChegada)/Principal.listaProcessos.size();		
+	}
+	
 
 	public int getMelhor() {
 		
