@@ -67,7 +67,11 @@ public class JAdicionarProcesso {
   
         bok.addActionListener(new ActionListener() {  
             public void actionPerformed(ActionEvent e) {  
-                nl = new Object[]{tprocesso.getText(),ttc.getText() ,tte.getText() ,tprioridade.getText() };  
+                nl = new Object[]{tprocesso.getText(),ttc.getText() ,tte.getText() ,tprioridade.getText() }; 
+                //trabalhando com processos
+                Processo p = new Processo(tprocesso.getText(),Integer.parseInt(ttc.getText()) ,Integer.parseInt(tte.getText()));                
+                Principal.listaProcessos.add(p);
+                //fim
                 Principal.adicionaLinha(nl);  
                 Principal.openJa=0;  
                 jAdicionar.dispose();  

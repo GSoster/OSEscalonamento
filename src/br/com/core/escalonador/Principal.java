@@ -2,6 +2,7 @@ package br.com.core.escalonador;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 //import javax.swing.JLabel; n utilizado
@@ -31,9 +32,14 @@ public class Principal {
 
 	private static DefaultTableModel model; 
 //	private static JTextField tquantum; 
+	
+	//trabalhando com processos
+	public static ArrayList<Processo> listaProcessos;//estatico p/acessar de fora diretamente
+	
 
 	public Principal() {
 
+		listaProcessos = new ArrayList<>();
 		janelaPrinc = new JFrame();
 		janelaPrinc.setLayout(null);
 		janelaPrinc.setTitle("Simulação de escalonador de processos");
@@ -70,7 +76,9 @@ public class Principal {
 		janelaPrinc.add(scrollTable);
 	}
 
+	
 	private void eventosMenu() {
+		//ADICIONANDO PROCESSO
 		itemAdicionar.addActionListener(new ActionListener() {
 			@SuppressWarnings("unused")
 			public void actionPerformed(ActionEvent e) {
@@ -93,6 +101,12 @@ public class Principal {
 			}
 		});
 		
+		/*CALCULANDO!
+		/alterar aqui...
+		 * a classe RESULTADO apenas monta a informacao visualmente
+		 * Calcular eh que eh deve ser alterada. 
+		 * 
+		 */
 		itemCalcular.addActionListener(new ActionListener() {
 			@SuppressWarnings("unused")
 			public void actionPerformed(ActionEvent e) {
