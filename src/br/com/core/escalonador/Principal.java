@@ -1,6 +1,5 @@
 package br.com.core.escalonador;
 
-//import java.awt.Font; n utilizado
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -27,8 +26,8 @@ public class Principal {
 	private static JMenuBar barraMenu;
 	private static JMenuItem itemAdicionar, itemRemover, itemCalcular, itemSobre;
 	//tornar Final ambas referencias abaixo
-	private String alerta = "Voc√™ deve inserir pelo menos 1 processo e/ou o quantum n√£o pode ser vazio!";
-	private String sobre = "                                                                  ======= Escalonamento de Processos =======\n Prof. Marcela Santos\n Alunos: Antonio, Sandro, Guilherme, Maicon\n\nFonte original obtido em: JavaFree.org\nDispon√≠vel em: <http://javafree.uol.com.br/topic-886249-Exemplo-de-Simulador-de-escalonamento-de-processos-de-SO.html>\nAcesso em 16 de outubro de 2015.";
+	private final String alerta = "VocÍ deve inserir pelo menos 1 processo e/ou o quantum n„o pode ser vazio!";
+	private final String sobre = "                                                                  ======= Escalonamento de Processos =======\n Prof. Marcela Santos\n Alunos: Antonio, Sandro, Guilherme, Maicon\n\nFonte original obtido em: JavaFree.org\nDispon√≠vel em: <http://javafree.uol.com.br/topic-886249-Exemplo-de-Simulador-de-escalonamento-de-processos-de-SO.html>\nAcesso em 16 de outubro de 2015.";
 
 	private static DefaultTableModel model; 
 //	private static JTextField tquantum; 
@@ -37,7 +36,7 @@ public class Principal {
 
 		janelaPrinc = new JFrame();
 		janelaPrinc.setLayout(null);
-		janelaPrinc.setTitle("Simula√ß√£o de escalonador de processos");
+		janelaPrinc.setTitle("SimulaÁ„o de escalonador de processos");
 		janelaPrinc.setSize(800, 600);
 		inicializarMenu();
 		configuraMenu();
