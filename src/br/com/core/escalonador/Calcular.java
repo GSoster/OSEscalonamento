@@ -6,6 +6,9 @@
 
 package br.com.core.escalonador;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 public class Calcular {
 	int quantum = 0;
 	double tempoTotal = 0;
@@ -17,7 +20,7 @@ public class Calcular {
 	static double[] tEspFIFO;
 	static double[] tTurFIFO;
 	double tmeFIFO = 0;
-	double tmePrio = 0;
+	double tmePrio = 0;	
 	int linhas;
 
 	public Calcular() {
@@ -57,6 +60,12 @@ public class Calcular {
 			i++;
 		}
 		quantum = Principal.quantum;
+		
+		//ordenando
+		Collections.sort(Principal.listaProcessos);
+		for(Processo p : Principal.listaProcessos){
+			System.out.println(p.getNome());
+		}
 
 	}
 
@@ -149,7 +158,7 @@ public class Calcular {
 	private int gerarMediaEsperaProcessos(){
 		int tempoTotal = 0;
 		int tempoChegada = 0;
-		for(Processo p : Principal.listaProcessos){
+		for(Processo p : Principal.listaProcessos){			
 			tempoTotal += p.getTempoExecucao();
 			tempoChegada += p.getTempoChegada();
 		}

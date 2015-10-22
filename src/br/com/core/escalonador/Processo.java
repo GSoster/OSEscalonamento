@@ -1,6 +1,6 @@
 package br.com.core.escalonador;
 
-public class Processo {
+public class Processo implements Comparable<Processo> {
 
 	private String nome;
 	private int tempoChegada ;
@@ -43,6 +43,18 @@ public class Processo {
 
 	public void setTempoExecucao(int tempoExecucao) {
 		this.tempoExecucao = tempoExecucao;
+	}
+
+
+
+
+	@Override
+	public int compareTo(Processo paraComparar) {
+
+		int compararTurnAround = ((Processo) paraComparar).getTempoExecucao(); 
+		
+		//ordem ascendente
+		return this.tempoExecucao - compararTurnAround;
 	}
 	
 	
