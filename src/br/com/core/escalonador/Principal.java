@@ -36,13 +36,15 @@ public class Principal {
 	// private static JTextField tquantum;
 
 	// trabalhando com processos
-	public static ArrayList<Processo> listaProcessos;// estatico p/acessar de
-
+	//lista vai ordenar por menor tempo, fifo mantem ordem de chegada
+	public static ArrayList<Processo> listaProcessos,fifoProcessos;// estatico p/acessar de
 	// fora diretamente
+	
 
 	public Principal() {
 
 		listaProcessos = new ArrayList<>();
+		fifoProcessos = new ArrayList<>();
 		janelaPrinc = new JFrame();
 		janelaPrinc.setLayout(null);
 		janelaPrinc.setTitle("Simulação de escalonador de processos");
@@ -68,8 +70,8 @@ public class Principal {
 
 		model.addColumn("Processo");
 		model.addColumn("Tempo de Chegada");
-		model.addColumn("Tempo de ExecuÃ§Ã£o");
-		model.addColumn("Prioridade");
+		model.addColumn("Tempo de Execução");
+		model.addColumn("Prioridade");//(nao exibiremos ja q a prioridade e o tempo de chegada)
 
 		table = new JTable(model);
 
@@ -148,6 +150,11 @@ public class Principal {
 		}
 	}
 
+	public void atualizarGrid(){
+		
+	}
+
+	
 	/**
 	 * ####################### DAQUI PRA BAIXO SO GRAFICO ##################3
 	 * PODE IGNORAR (com excecao do main..)

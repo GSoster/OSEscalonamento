@@ -40,6 +40,7 @@ public class JAdicionarProcesso {
 						.parseInt(ttc.getText()), Integer.parseInt(tte
 						.getText()));
 				Principal.listaProcessos.add(p);
+				Principal.fifoProcessos.add(p);
 				Principal.ordenarProcessos();
 				// fim
 				Principal.adicionaLinha(nl);
