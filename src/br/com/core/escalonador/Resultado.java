@@ -11,10 +11,14 @@ public class Resultado {
 	Calcular calc;
 	int linhas;
 
+	// tabelas
 	DefaultTableModel modelFIFO;
-	DefaultTableModel modelSJF;
 	DefaultTableModel modelPrio;
-	DefaultTableModel modelRR;
+	// texts
+	JTextField temFIFO;// TEMPO ESPERA MEDIA FIFO
+	JTextField ttmFIFO;// TEMPO EXECUCAO MEDIO FIFO
+	JTextField temPrio;// TEMPO ESPERA MEDIA PRIORIDADE
+	JTextField ttmPrio;// TEMPO EXECUCAO MEDIO PRIORIDADE
 
 	public Resultado() {
 
@@ -44,49 +48,27 @@ public class Resultado {
 		stableFIFO.setBounds(50, 50, 400, 250);
 		stablePrio.setBounds(50, 400, 400, 250);
 
-		JTextField temFIFO = new JTextField();
-		JTextField ttmFIFO = new JTextField();
-		JTextField temSJF = new JTextField();
-		JTextField ttmSJF = new JTextField();
-		JTextField temPrio = new JTextField();
-		JTextField ttmPrio = new JTextField();
-		JTextField temRR = new JTextField();
-		JTextField ttmRR = new JTextField();
+		temFIFO = new JTextField();// TEMPO ESPERA MEDIA FIFO
+		ttmFIFO = new JTextField();// TEMPO EXECUCAO MEDIO FIFO
+		temPrio = new JTextField();// TEMPO ESPERA MEDIA PRIORIDADE
+		ttmPrio = new JTextField();// TEMPO EXECUCAO MEDIO PRIORIDADE
 
 		temFIFO.setEditable(false);
 		ttmFIFO.setEditable(false);
-		temSJF.setEditable(false);
-		ttmSJF.setEditable(false);
 		temPrio.setEditable(false);
 		ttmPrio.setEditable(false);
-		temRR.setEditable(false);
-		ttmRR.setEditable(false);
 
 		temFIFO.setBounds(150, 315, 100, 20);
 		ttmFIFO.setBounds(370, 315, 100, 20);
-		temSJF.setBounds(650, 315, 100, 20);
-		ttmSJF.setBounds(870, 315, 100, 20);
 		temPrio.setBounds(150, 665, 100, 20);
 		ttmPrio.setBounds(370, 665, 100, 20);
-		temRR.setBounds(650, 665, 100, 20);
-		ttmRR.setBounds(870, 665, 100, 20);
 
-		temFIFO.setText(""
-				+ NumberFormat.getNumberInstance().format(calc.getEsperaFIFO()));
-		ttmFIFO.setText(""
-				+ NumberFormat.getNumberInstance().format(
-						calc.getTurnaroundFIFO()));
-		temPrio.setText(""
-				+ NumberFormat.getNumberInstance().format(
-						calc.getEsperaPrioridade()));
-		ttmPrio.setText(""
-				+ NumberFormat.getNumberInstance().format(
-						calc.getTurnaroundPrioridade()));
+		this.definirTemposMedios();
 
 		JLabel ltemFIFO = new JLabel("T.Espera Médio");
-		JLabel lttmFIFO = new JLabel("T.Turnaround Médio");
+		JLabel lttmFIFO = new JLabel("T.Execução Médio");// era turnAround
 		JLabel ltemPrio = new JLabel("T.Espera Médio");
-		JLabel lttmPrio = new JLabel("T.Turnaround Médio");
+		JLabel lttmPrio = new JLabel("T.Execução Médio");// era turnAround
 
 		JLabel lFIFO = new JLabel("FIFO");
 		JLabel lPrio = new JLabel("Prioridade");
@@ -124,39 +106,68 @@ public class Resultado {
 		// jResultado.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
-	
 	/**
-	 * calcula o tempo de espera de cada processo e preenche a tabela com as informacoes
-	 * necessarias de cada processo
+	 * calcula o tempo de espera de cada processo e preenche a tabela com as
+	 * informacoes necessarias de cada processo
 	 */
 	private void preencherTabelas() {
-		//#############    FIFO
+		// ############# FIFO
 		int tempoExecucaoAnterior = 0;
 		int tempoEspera = 0;
-		for(Processo p : Principal.fifoProcessos){
+		for (Processo p : Principal.fifoProcessos) {
 			tempoEspera = p.getTempoChegada() - tempoExecucaoAnterior;
-			if(tempoEspera < 0 ){
+			if (tempoEspera < 0) {
 				tempoEspera = 0;
 			}
-			modelFIFO.addRow(new Object[] { p.getNome(),tempoEspera,p.getTempoExecucao() });								
+			modelFIFO.addRow(new Object[] { p.getNome(), tempoEspera,
+					p.getTempoExecucao() });
 			tempoExecucaoAnterior = p.getTempoExecucao();
 		}
-		//############## FIM DO FIFO 
-		
+		// ############## FIM DO FIFO
+
 		Principal.ordenarProcessos();
-		for(Processo p : Principal.listaProcessos){			
-			modelPrio.addRow(new Object[] { p.getNome() ,"tempo espera",p.getTempoExecucao() });
+		for (Processo p : Principal.listaProcessos) {
+			modelPrio.addRow(new Object[] { p.getNome(), "tempo espera",
+					p.getTempoExecucao() });
 		}
-		
-		
-		
+
 	}
-	
-	
-	
+
+	private void definirTemposMedios() {
+		//FIFO
+		int tempoTotalExecucao = 0, tempoMedioExecucao;
+		for (Processo p : Principal.fifoProcessos) {
+			tempoTotalExecucao += p.getTempoExecucao();
+		}
+		tempoMedioExecucao = tempoTotalExecucao
+				/ Principal.fifoProcessos.size();
+		temFIFO.setText("");// tempo medio espera
+		ttmFIFO.setText("" + tempoMedioExecucao);// tempo medio execucao
+		//PRIORIDADE		
+		tempoMedioExecucao = tempoTotalExecucao = 0;
+		for (Processo p : Principal.listaProcessos) {
+			tempoTotalExecucao += p.getTempoExecucao();
+		}
+		tempoMedioExecucao = tempoTotalExecucao
+				/ Principal.fifoProcessos.size();
+		temPrio.setText("");// tempo medio espera
+		ttmPrio.setText(""+tempoMedioExecucao);// tempo medio execucao
+
+		/*
+		 * temFIFO.setText("" +
+		 * NumberFormat.getNumberInstance().format(calc.getEsperaFIFO()));
+		 * ttmFIFO.setText("" + NumberFormat.getNumberInstance().format(
+		 * calc.getTurnaroundFIFO())); temPrio.setText("" +
+		 * NumberFormat.getNumberInstance().format(
+		 * calc.getEsperaPrioridade())); ttmPrio.setText("" +
+		 * NumberFormat.getNumberInstance().format(
+		 * calc.getTurnaroundPrioridade()));
+		 */
+	}
+
 	/**
-	 * Preenche as tabelas com as informacoes necessarias.
-	 * versao antiga!!
+	 * Preenche as tabelas com as informacoes necessarias. versao antiga!!
+	 * 
 	 * @deprecated
 	 */
 	private void _preencherTabelas() {
@@ -176,7 +187,9 @@ public class Resultado {
 	}
 
 	/**
-	 * ####################### DAQUI PRA BAIXO SO GRAFICO ##################3
+	 * #######################################################################
+	 * #######################################################################
+	 * ####################### DAQUI PRA BAIXO SO GRAFICO ####################
 	 * PODE IGNORAR (com excecao do main..)
 	 */
 
@@ -191,12 +204,12 @@ public class Resultado {
 			}
 		};
 
-		modelSJF = new DefaultTableModel() {
-			@Override
-			public boolean isCellEditable(int row, int col) {
-				return false;
-			}
-		};
+		/*
+		 * modelSJF = new DefaultTableModel() {
+		 * 
+		 * @Override public boolean isCellEditable(int row, int col) { return
+		 * false; } };
+		 */
 
 		modelPrio = new DefaultTableModel() {
 			@Override
@@ -205,12 +218,12 @@ public class Resultado {
 			}
 		};
 
-		modelRR = new DefaultTableModel() {
-			@Override
-			public boolean isCellEditable(int row, int col) {
-				return false;
-			}
-		};
+		/*
+		 * modelRR = new DefaultTableModel() {
+		 * 
+		 * @Override public boolean isCellEditable(int row, int col) { return
+		 * false; } };
+		 */
 	}
 
 	/**
@@ -219,19 +232,22 @@ public class Resultado {
 	private void montarTabelas() {
 		modelFIFO.addColumn("Processo");
 		modelFIFO.addColumn("Tempo de Espera");
-		modelFIFO.addColumn("Tempo de Turnaround");
+		modelFIFO.addColumn("Tempo de Execução");
 
-		modelSJF.addColumn("Processo");
-		modelSJF.addColumn("Tempo de Espera");
-		modelSJF.addColumn("Tempo de Turnaround");
+		/*
+		 * modelSJF.addColumn("Processo");
+		 * modelSJF.addColumn("Tempo de Espera");
+		 * modelSJF.addColumn("Tempo de Turnaround");
+		 */
 
 		modelPrio.addColumn("Processo");
 		modelPrio.addColumn("Tempo de Espera");
-		modelPrio.addColumn("Tempo de Turnaround");
+		modelPrio.addColumn("Tempo de Execução");
 
-		modelRR.addColumn("Processo");
-		modelRR.addColumn("Tempo de Espera");
-		modelRR.addColumn("Tempo de Turnaround");
+		/*
+		 * modelRR.addColumn("Processo"); modelRR.addColumn("Tempo de Espera");
+		 * modelRR.addColumn("Tempo de Turnaround");
+		 */
 
 		linhas = Principal.table.getRowCount();
 	}
