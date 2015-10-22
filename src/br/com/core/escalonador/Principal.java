@@ -3,6 +3,7 @@ package br.com.core.escalonador;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import javax.swing.JFrame;
 //import javax.swing.JLabel; n utilizado
@@ -18,24 +19,26 @@ import javax.swing.table.DefaultTableModel;
 
 public class Principal {
 
-	protected static int quantum = 1; 
-	protected static JFrame janelaPrinc; 
-	protected static JTable table; 
-	protected static int p = 0; //numero de processos
+	protected static int quantum = 1;
+	protected static JFrame janelaPrinc;
+	protected static JTable table;
+	protected static int p = 0; // numero de processos
 	protected static int openJa = 0;
 	private static JMenu menuPrincipal;
 	private static JMenuBar barraMenu;
-	private static JMenuItem itemAdicionar, itemRemover, itemCalcular, itemSobre;
-	//tornar Final ambas referencias abaixo
+	private static JMenuItem itemAdicionar, itemRemover, itemCalcular,
+			itemSobre;
+	// tornar Final ambas referencias abaixo
 	private final String alerta = "Voc� deve inserir pelo menos 1 processo e/ou o quantum n�o pode ser vazio!";
 	private final String sobre = "                                                                  ======= Escalonamento de Processos =======\n Prof. Marcela Santos\n Alunos: Antonio, Sandro, Guilherme, Maicon\n\nFonte original obtido em: JavaFree.org\nDisponível em: <http://javafree.uol.com.br/topic-886249-Exemplo-de-Simulador-de-escalonamento-de-processos-de-SO.html>\nAcesso em 16 de outubro de 2015.";
 
-	private static DefaultTableModel model; 
-//	private static JTextField tquantum; 
-	
-	//trabalhando com processos
-	public static ArrayList<Processo> listaProcessos;//estatico p/acessar de fora diretamente
-	
+	private static DefaultTableModel model;
+	// private static JTextField tquantum;
+
+	// trabalhando com processos
+	public static ArrayList<Processo> listaProcessos;// estatico p/acessar de
+
+	// fora diretamente
 
 	public Principal() {
 
@@ -76,9 +79,8 @@ public class Principal {
 		janelaPrinc.add(scrollTable);
 	}
 
-	
 	private void eventosMenu() {
-		//ADICIONANDO PROCESSO
+		// ADICIONANDO PROCESSO
 		itemAdicionar.addActionListener(new ActionListener() {
 			@SuppressWarnings("unused")
 			public void actionPerformed(ActionEvent e) {
@@ -88,34 +90,37 @@ public class Principal {
 				}
 			}
 		});
-		
+
 		itemRemover.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int colunas = table.getSelectedColumn();
 				int linhas = table.getSelectedRow();
-				if (linhas == -1 || colunas == -1) {// alterar para: (linhas != -1 || colunas != -1) ? ação (model....);
+				if (linhas == -1 || colunas == -1) {// alterar para: (linhas !=
+					// -1 || colunas != -1) ?
+					// ação (model....);
 				} else {
 					model.removeRow(linhas);
 					p--;
 				}
 			}
 		});
-		
-		/*CALCULANDO!
-		/alterar aqui...
-		 * a classe RESULTADO apenas monta a informacao visualmente
-		 * Calcular eh que eh deve ser alterada. 
-		 * 
+
+		/*
+		 * CALCULANDO! /alterar aqui... a classe RESULTADO apenas monta a
+		 * informacao visualmente Calcular eh que eh deve ser alterada.
 		 */
 		itemCalcular.addActionListener(new ActionListener() {
 			@SuppressWarnings("unused")
 			public void actionPerformed(ActionEvent e) {
-//				if (tquantum != null && !tquantum.getText().trim().isEmpty() && model.getRowCount() > 0) {
+				// if (tquantum != null && !tquantum.getText().trim().isEmpty()
+				// && model.getRowCount() > 0) {
 				if (model.getRowCount() > 0) {
-//					quantum = Integer.parseInt(tquantum.getText());
-					Resultado res = new Resultado();//lembrar de alterar o construtor de Calcular.
+					// quantum = Integer.parseInt(tquantum.getText());
+					Resultado res = new Resultado();// lembrar de alterar o
+					// construtor de Calcular.
 				} else {
-					JOptionPane.showMessageDialog(null, alerta, null, JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(null, alerta, null,
+							JOptionPane.WARNING_MESSAGE);
 				}
 			}
 		});
@@ -123,7 +128,8 @@ public class Principal {
 		itemSobre.addActionListener(new ActionListener() {
 			@SuppressWarnings("unused")
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, sobre, null, JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(null, sobre, null,
+						JOptionPane.INFORMATION_MESSAGE);
 			}
 		});
 	}
@@ -132,21 +138,28 @@ public class Principal {
 		model.addRow(nl);
 	}
 
-	private void inicializarMenu() {
+	/**
+	 * ordena os processos por prioridade (menor tempo de execucao TURNAROUND)
+	 */
+	public static void ordenarProcessos() {
+		Collections.sort(listaProcessos);
+		for (Processo p : Principal.listaProcessos) {
+			System.out.println(p.getNome());
+		}
+	}
 
+	/**
+	 * ####################### DAQUI PRA BAIXO SO GRAFICO ##################3
+	 * PODE IGNORAR (com excecao do main..)
+	 */
+
+	private void inicializarMenu() {
 		barraMenu = new JMenuBar();
 		menuPrincipal = new JMenu("Simulador");
 		itemAdicionar = new JMenuItem("Adicionar Processo");
 		itemCalcular = new JMenuItem("Calcular");
 		itemRemover = new JMenuItem("Remover Processo");
 		itemSobre = new JMenuItem("Sobre");
-//		JLabel lquantum = new JLabel("Quantum:");
-//		lquantum.setFont(new Font(Font.DIALOG, Font.BOLD, 15));
-//		tquantum = new JTextField();
-//		lquantum.setBounds(50, 0, 80, 50);
-//		tquantum.setBounds(125, 15, 60, 20);
-//		janelaPrinc.add(lquantum);
-//		janelaPrinc.add(tquantum);
 	}
 
 	private void adicionarMenu() {

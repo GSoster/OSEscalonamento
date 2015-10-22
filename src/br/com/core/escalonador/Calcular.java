@@ -62,10 +62,10 @@ public class Calcular {
 		quantum = Principal.quantum;
 		
 		//ordenando
-		Collections.sort(Principal.listaProcessos);
+		/*Collections.sort(Principal.listaProcessos);
 		for(Processo p : Principal.listaProcessos){
 			System.out.println(p.getNome());
-		}
+		}*/
 
 	}
 
