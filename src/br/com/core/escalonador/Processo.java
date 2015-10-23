@@ -15,6 +15,7 @@ public class Processo implements Comparable<Processo> {
 		nome = n;
 		tempoChegada = tc;
 		tempoExecucao = te;
+		tempoEspera = 0;
 	}
 
 	public Processo(String n, int tc, int te, int tesp) {

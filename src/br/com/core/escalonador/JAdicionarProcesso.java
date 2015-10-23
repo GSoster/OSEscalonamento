@@ -39,9 +39,20 @@ public class JAdicionarProcesso {
 				Processo p = new Processo(tprocesso.getText(), Integer
 						.parseInt(ttc.getText()), Integer.parseInt(tte
 						.getText()));
+				
+				if(Principal.ultimoProcesso == null){
+					p.setTempoEspera(0);
+					Principal.ultimoTempoEspera = 0;
+				}
+				
+				
 				Principal.listaProcessos.add(p);
 				Principal.fifoProcessos.add(p);
 				Principal.ordenarProcessos();
+				
+				Principal.ultimoProcesso = p;
+				//Principal.ultimoTempoEspera = tempoChegada
+				
 				// fim
 				Principal.adicionaLinha(nl);
 				Principal.openJa = 0;

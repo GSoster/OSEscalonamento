@@ -33,6 +33,10 @@ public class Principal {
 	private final String sobre = "                                                                  ======= Escalonamento de Processos =======\n Prof. Marcela Santos\n Alunos: Antonio, Sandro, Guilherme, Maicon\n\nFonte original obtido em: JavaFree.org\nDisponível em: <http://javafree.uol.com.br/topic-886249-Exemplo-de-Simulador-de-escalonamento-de-processos-de-SO.html>\nAcesso em 16 de outubro de 2015.";
 
 	private static DefaultTableModel model;
+	
+	public static Processo ultimoProcesso;
+	public static int ultimoTempoEspera;
+	
 	// private static JTextField tquantum;
 
 	// trabalhando com processos
@@ -42,7 +46,10 @@ public class Principal {
 	
 
 	public Principal() {
-
+		//calculando tempo espera
+		ultimoProcesso = null;
+		ultimoTempoEspera = 0;
+		//
 		listaProcessos = new ArrayList<>();
 		fifoProcessos = new ArrayList<>();
 		janelaPrinc = new JFrame();

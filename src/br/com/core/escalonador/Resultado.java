@@ -37,6 +37,11 @@ public class Resultado {
 		this.montarTabelas();
 		this.preencherTabelas();
 
+		this.criarCamposMedios();
+
+		this.definirTemposMedios();
+		
+		
 		JTable tableFIFO = new JTable(modelFIFO);
 		JTable tablePrio = new JTable(modelPrio);
 
@@ -48,22 +53,7 @@ public class Resultado {
 		stableFIFO.setBounds(50, 50, 400, 250);
 		stablePrio.setBounds(50, 400, 400, 250);
 
-		temFIFO = new JTextField();// TEMPO ESPERA MEDIA FIFO
-		ttmFIFO = new JTextField();// TEMPO EXECUCAO MEDIO FIFO
-		temPrio = new JTextField();// TEMPO ESPERA MEDIA PRIORIDADE
-		ttmPrio = new JTextField();// TEMPO EXECUCAO MEDIO PRIORIDADE
-
-		temFIFO.setEditable(false);
-		ttmFIFO.setEditable(false);
-		temPrio.setEditable(false);
-		ttmPrio.setEditable(false);
-
-		temFIFO.setBounds(150, 315, 100, 20);
-		ttmFIFO.setBounds(370, 315, 100, 20);
-		temPrio.setBounds(150, 665, 100, 20);
-		ttmPrio.setBounds(370, 665, 100, 20);
-
-		this.definirTemposMedios();
+		//MEDIOS AQUI
 
 		JLabel ltemFIFO = new JLabel("T.Espera Médio");
 		JLabel lttmFIFO = new JLabel("T.Execução Médio");// era turnAround
@@ -134,25 +124,59 @@ public class Resultado {
 	}
 
 	private void definirTemposMedios() {
-		//FIFO
+		// FIFO
+		// TEMPO EXECUCAO
 		int tempoTotalExecucao = 0, tempoMedioExecucao;
 		for (Processo p : Principal.fifoProcessos) {
 			tempoTotalExecucao += p.getTempoExecucao();
 		}
 		tempoMedioExecucao = tempoTotalExecucao
 				/ Principal.fifoProcessos.size();
-		temFIFO.setText("");// tempo medio espera
 		ttmFIFO.setText("" + tempoMedioExecucao);// tempo medio execucao
-		//PRIORIDADE		
+
+		// TEMPO ESPERA
+		int tempoEsperaTotal = 0;
+		int tempoEsperaCalculo = 0;
+		Processo ultimoProcesso = null;
+		for (Processo p : Principal.fifoProcessos) {
+			if (ultimoProcesso == null) {
+				ultimoProcesso = p;
+				p.setTempoEspera(0);
+			} else {
+				tempoEsperaCalculo = (p.getTempoChegada() + ultimoProcesso
+						.getTempoEspera()) - ultimoProcesso.getTempoExecucao();
+				p.setTempoEspera(tempoEsperaCalculo);
+			}
+			tempoEsperaTotal += tempoEsperaCalculo;
+		}
+		temFIFO.setText(""
+				+ (tempoEsperaTotal / Principal.fifoProcessos.size()));// tempo
+																		// medio
+																		// espera
+
+		// PRIORIDADE
 		tempoMedioExecucao = tempoTotalExecucao = 0;
 		for (Processo p : Principal.listaProcessos) {
 			tempoTotalExecucao += p.getTempoExecucao();
 		}
 		tempoMedioExecucao = tempoTotalExecucao
-				/ Principal.fifoProcessos.size();
-		temPrio.setText("");// tempo medio espera
-		ttmPrio.setText(""+tempoMedioExecucao);// tempo medio execucao
+				/ Principal.fifoProcessos.size();		
+		ttmPrio.setText("" + tempoMedioExecucao);// tempo medio execucao
 
+		//TEMPO ESPERA
+		for (Processo p : Principal.listaProcessos) {
+			if (ultimoProcesso == null) {
+				ultimoProcesso = p;
+				p.setTempoEspera(0);
+			} else {
+				tempoEsperaCalculo = (p.getTempoChegada() + ultimoProcesso
+						.getTempoEspera()) - ultimoProcesso.getTempoExecucao();
+				p.setTempoEspera(tempoEsperaCalculo);
+			}
+			tempoEsperaTotal += tempoEsperaCalculo;
+		}
+		temPrio.setText(""+tempoEsperaTotal / Principal.listaProcessos.size());// tempo medio espera
+		
 		/*
 		 * temFIFO.setText("" +
 		 * NumberFormat.getNumberInstance().format(calc.getEsperaFIFO()));
@@ -192,6 +216,26 @@ public class Resultado {
 	 * ####################### DAQUI PRA BAIXO SO GRAFICO ####################
 	 * PODE IGNORAR (com excecao do main..)
 	 */
+
+	/**
+	 * cria campos como Tempo medio, etc..
+	 */
+	private void criarCamposMedios() {
+		temFIFO = new JTextField();// TEMPO ESPERA MEDIA FIFO
+		ttmFIFO = new JTextField();// TEMPO EXECUCAO MEDIO FIFO
+		temPrio = new JTextField();// TEMPO ESPERA MEDIA PRIORIDADE
+		ttmPrio = new JTextField();// TEMPO EXECUCAO MEDIO PRIORIDADE
+
+		temFIFO.setEditable(false);
+		ttmFIFO.setEditable(false);
+		temPrio.setEditable(false);
+		ttmPrio.setEditable(false);
+
+		temFIFO.setBounds(150, 315, 100, 20);
+		ttmFIFO.setBounds(370, 315, 100, 20);
+		temPrio.setBounds(150, 665, 100, 20);
+		ttmPrio.setBounds(370, 665, 100, 20);
+	}
 
 	/**
 	 * cria instancia das tabelas
